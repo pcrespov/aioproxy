@@ -7,9 +7,9 @@ import aiohttp
 import aiohttp.abc
 import aiohttp.client
 import aiohttp.log
-import aiohttp.server
+# import aiohttp.server
 import aiohttp.web
-from aiohttp import CIMultiDictProxy
+from multidict import CIMultiDictProxy
 
 logging.basicConfig(level=logging.WARNING)
 logger = logging.getLogger(__name__)
@@ -122,6 +122,22 @@ class ReverseProxyMatch(aiohttp.abc.AbstractMatchInfo):
         except HttpStatus as status:
             return status.as_response()
 
+    def apps(self):
+        pass
+        #return tuple(self._apps)
+
+    def add_app(self, app):
+        pass
+
+        #if self._frozen:
+        #    raise RuntimeError("Cannot change apps stack after .freeze() call")
+        #if self._current_app is None:
+        #    self._current_app = app
+        #self._apps.insert(0, app)
+
+    def freeze(self):
+        self._frozen = True
+
     def route(self):
         pass
 
@@ -217,5 +233,3 @@ class ReverseProxyRouter(aiohttp.abc.AbstractRouter):
 
     async def resolve(self, request):
         return ReverseProxyMatch(self.resolver)
-
-
